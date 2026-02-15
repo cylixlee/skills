@@ -127,6 +127,12 @@ Add dependencies:
 uv add <package-name>
 ```
 
+Remove dependencies:
+
+```bash
+uv remove <package-name>
+```
+
 Run scripts:
 
 ```bash

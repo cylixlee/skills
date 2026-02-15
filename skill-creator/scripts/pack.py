@@ -10,12 +10,39 @@ Examples:
 """
 
 import argparse
+import subprocess
 import sys
 import zipfile
 from pathlib import Path
 import validate
 
 SKILLS_DIR = Path(__file__).parent.parent.parent
+
+
+def get_tracked_files(skill_path: Path) -> list[str]:
+    """Get list of tracked files using git ls-files."""
+    result = subprocess.run(
+        ["git", "ls-files", "."],
+        cwd=skill_path,
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0:
+        return []
+    return [f for f in result.stdout.strip().split("\n") if f]
+
+
+def get_untracked_files(skill_path: Path) -> list[str]:
+    """Get list of untracked but not ignored files using git ls-files --others."""
+    result = subprocess.run(
+        ["git", "ls-files", "--others", "--exclude-standard", "."],
+        cwd=skill_path,
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0:
+        return []
+    return [f for f in result.stdout.strip().split("\n") if f]
 
 
 def package_skill(skill_name: str, output_dir: Path) -> Path | None:
@@ -32,6 +59,10 @@ def package_skill(skill_name: str, output_dir: Path) -> Path | None:
         return None
     print(f"Validated: {msg}")
 
+    tracked = get_tracked_files(skill_path)
+    untracked = get_untracked_files(skill_path)
+    files = set(tracked + untracked)
+
     output_dir = output_dir.resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -39,10 +70,10 @@ def package_skill(skill_name: str, output_dir: Path) -> Path | None:
 
     try:
         with zipfile.ZipFile(output_file, "w", zipfile.ZIP_DEFLATED) as zf:
-            for file_path in skill_path.rglob("*"):
+            for file in sorted(files):
+                file_path = skill_path / file
                 if file_path.is_file():
-                    arcname = file_path.relative_to(skill_path.parent)
-                    zf.write(file_path, arcname)
+                    zf.write(file_path, file)
         print(f"Created: {output_file}")
         return output_file
     except Exception as e:
