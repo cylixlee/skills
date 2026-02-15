@@ -3,17 +3,18 @@
 Skill Initializer - Creates a new skill from template
 
 Usage:
-    uv run scripts/init.py <skill-name> --path <path>
+    uv run scripts/init.py <skill-name>
 
-Examples:
-    uv run scripts/init.py my-new-skill --path skills/public
-    uv run scripts/init.py my-api-helper --path skills/private
+Example:
+    uv run scripts/init.py my-new-skill
 """
 
 import argparse
 import re
 import sys
 from pathlib import Path
+
+SKILLS_DIR = Path(__file__).parent.parent.parent
 
 SKILL_TEMPLATE = """---
 name: {skill_name}
@@ -116,7 +117,6 @@ def validate_skill_name(name: str) -> bool:
 
 def init_skill(
     skill_name: str,
-    path: Path,
     no_ref: bool = False,
     no_script: bool = False,
     no_asset: bool = False,
@@ -127,7 +127,7 @@ def init_skill(
         print("Must be hyphen-case (lowercase letters, digits, hyphens), max 64 chars")
         return None
 
-    skill_dir = (path / skill_name).resolve()
+    skill_dir = (SKILLS_DIR / skill_name).resolve()
 
     if skill_dir.exists():
         print(f"Skill directory already exists: {skill_dir}")
@@ -168,7 +168,6 @@ def init_skill(
 def main():
     parser = argparse.ArgumentParser(description="Initialize a new skill")
     parser.add_argument("skill_name", help="Name of the skill (hyphen-case)")
-    parser.add_argument("--path", type=Path, default=Path("."), help="Output directory")
     parser.add_argument(
         "--no-ref", action="store_true", help="Skip creating references/ directory"
     )
@@ -183,7 +182,6 @@ def main():
 
     result = init_skill(
         args.skill_name,
-        args.path,
         no_ref=args.no_ref,
         no_script=args.no_script,
         no_asset=args.no_asset,

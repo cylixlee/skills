@@ -58,10 +58,10 @@ All scripts use uv for dependency management. Remind user to install uv first if
 ### Initialize a New Skill
 
 ```bash
-uv run scripts/init.py <skill-name> --path <output-directory>
+uv run scripts/init.py <skill-name>
 ```
 
-Creates a minimal skill with only SKILL.md. Reference/script/asset directories are created on-demand.
+Creates a new skill in `skills/<skill-name>/`. Reference/script/asset directories are created on-demand.
 
 ### Validate a Skill
 
