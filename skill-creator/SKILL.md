@@ -58,6 +58,13 @@ skill-name/
     └── assets/           - Files used in output (templates, icons, fonts, etc.)
 ```
 
+#### SKILL.md (required)
+
+Every SKILL.md consists of:
+
+- **Frontmatter** (YAML): Contains `name` and `description` fields. These are the only fields that the Agent reads to determine when the skill gets used, thus it is very important to be clear and comprehensive in describing what the skill is, and when it should be used.
+- **Body** (Markdown): Instructions and guidance for using the skill. Only loaded AFTER the skill triggers (if at all).
+
 ## Resource Directories
 
 | Directory     | When to include                             | Examples                                      |
@@ -80,18 +87,18 @@ Executable code (Python/Bash/etc.) for tasks that require deterministic reliabil
 Documentation and reference material intended to be loaded as needed into context to inform Agent's process and thinking.
 
 - **When to include**: For documentation that Agent should reference while working
-- **Examples**: `references/finance.md` for financial schemas, `references/policies.md` for company policies
+- **Examples**: `references/finance.md` for financial schemas, `references/mnda.md` for company NDA template, `references/policies.md` for company policies, `references/api.md` for API specifications
 - **Use cases**: Database schemas, API documentation, domain knowledge, company policies, detailed workflow guides
 - **Benefits**: Keeps SKILL.md lean, loaded only when Agent determines it's needed
 - **Best practice**: If files are large (>10k words), include grep search patterns in SKILL.md
-- **Avoid duplication**: Information should live in either SKILL.md or references files, not both. Prefer references files for detailed information unless it's truly core to the skill—this keeps SKILL.md lean while making information discoverable without hogging the context window.
+- **Avoid duplication**: Information should live in either SKILL.md or references files, not both. Prefer references files for detailed information unless it's truly core to the skill—this keeps SKILL.md lean while making information discoverable without hogging the context window. Keep only essential procedural instructions and workflow guidance in SKILL.md; move detailed reference material, schemas, and examples to references files.
 
 ### Assets (`assets/`)
 
 Files not intended to be loaded into context, but rather used within the output Agent produces.
 
 - **When to include**: When the skill needs files that will be used in the final output
-- **Examples**: `assets/logo.png` for brand assets, `assets/frontend-template/` for HTML/React boilerplate
+- **Examples**: `assets/logo.png` for brand assets, `assets/slides.pptx` for PowerPoint templates, `assets/frontend-template/` for HTML/React boilerplate, `assets/font.ttf` for typography
 - **Use cases**: Templates, images, icons, boilerplate code, fonts, sample documents that get copied or modified
 - **Benefits**: Separates output resources from documentation, enables Agent to use files without loading them into context
 
@@ -142,16 +149,32 @@ The Agent loads FORMS.md, REFERENCE.md, or EXAMPLES.md only when needed.
 
 **Pattern 2: Domain-specific organization**
 
+For Skills with multiple domains, organize content by domain to avoid loading irrelevant context:
+
 ```
 bigquery-skill/
 ├── SKILL.md (overview and navigation)
 └── reference/
     ├── finance.md (revenue, billing metrics)
     ├── sales.md (opportunities, pipeline)
-    └── product.md (API usage, features)
+    ├── product.md (API usage, features)
+    └── marketing.md (campaigns, attribution)
 ```
 
 When a user asks about sales metrics, the Agent only reads sales.md.
+
+Similarly, for skills supporting multiple frameworks or variants, organize by variant:
+
+```
+cloud-deploy/
+├── SKILL.md (workflow + provider selection)
+└── references/
+    ├── aws.md (AWS deployment patterns)
+    ├── gcp.md (GCP deployment patterns)
+    └── azure.md (Azure deployment patterns)
+```
+
+When the user chooses AWS, the Agent only reads aws.md.
 
 **Pattern 3: Conditional details**
 
@@ -181,34 +204,99 @@ The Agent reads REDLINING.md or OOXML.md only when the user needs those features
 
 Skill creation involves these steps:
 
-1. Initialize the skill
-2. Edit the skill (implement resources and write SKILL.md)
-3. Validate the skill
-4. Package the skill
-5. Iterate based on real usage
+1. Understand the skill with concrete examples
+2. Plan reusable skill contents (scripts, references, assets)
+3. Initialize the skill
+4. Edit the skill (implement resources and write SKILL.md)
+5. Package the skill
+6. Iterate based on real usage
 
-### Step 1: Initialize the Skill
+Follow these steps in order, skipping only if there is a clear reason why they are not applicable.
+
+### Step 1: Understanding the Skill with Concrete Examples
+
+Skip this step only when the skill's usage patterns are already clearly understood. It remains valuable even when working with an existing skill.
+
+To create an effective skill, clearly understand concrete examples of how the skill will be used. This understanding can come from either direct user examples or generated examples that are validated with user feedback.
+
+For example, when building an image-editor skill, relevant questions include:
+
+- "What functionality should the image-editor skill support? Editing, rotating, anything else?"
+- "Can you give some examples of how this skill would be used?"
+- "I can imagine users asking for things like 'Remove the red-eye from this image' or 'Rotate this image'. Are there other ways you imagine this skill being used?"
+- "What would a user say that should trigger this skill?"
+
+To avoid overwhelming users, avoid asking too many questions in a single message. Start with the most important questions and follow up as needed for better effectiveness.
+
+Conclude this step when there is a clear sense of the functionality the skill should support.
+
+### Step 2: Planning the Reusable Skill Contents
+
+To turn concrete examples into an effective skill, analyze each example by:
+
+1. Considering how to execute on the example from scratch
+2. Identifying what scripts, references, and assets would be helpful when executing these workflows repeatedly
+
+Example: When building a `pdf-editor` skill to handle queries like "Help me rotate this PDF," the analysis shows:
+
+1. Rotating a PDF requires re-writing the same code each time
+2. A `scripts/rotate_pdf.py` script would be helpful to store in the skill
+
+Example: When designing a `frontend-webapp-builder` skill for queries like "Build me a todo app" or "Build me a dashboard to track my steps," the analysis shows:
+
+1. Writing a frontend webapp requires the same boilerplate HTML/React each time
+2. An `assets/hello-world/` template containing the boilerplate HTML/React project files would be helpful to store in the skill
+
+Example: When building a `big-query` skill to handle queries like "How many users have logged in today?" the analysis shows:
+
+1. Querying BigQuery requires re-discovering the table schemas and relationships each time
+2. A `references/schema.md` file documenting the table schemas would be helpful to store in the skill
+
+To establish the skill's contents, analyze each concrete example to create a list of the reusable resources to include: scripts, references, and assets.
+
+### Step 3: Initialize the Skill
+
+At this point, it is time to actually create the skill.
+
+Skip this step only if the skill being developed already exists, and iteration or packaging is needed. In this case, continue to the next step.
+
+When creating a new skill from scratch, always run the `init_skill.py` script. The script conveniently generates a new template skill directory that automatically includes everything a skill requires, making the skill creation process much more efficient and reliable.
+
+Usage:
 
 ```bash
-# Run from project root
 uv run scripts/init.py <skill-name>
-
-# Enter skill directory
-cd skills/<skill-name>
-
-# Initialize uv project (required for scripts)
-uv init --bare
 ```
 
 The initialization script creates:
+
 - Skill directory structure
 - SKILL.md template with YAML frontmatter
 - Resource directories: `scripts/`, `references/`, `assets/`
 - Example files (can be customized or deleted)
 
+After initialization, customize or remove the generated SKILL.md and example files as needed.
+
 ### Step 2: Edit the Skill
 
-Implement reusable resources and update SKILL.md with skill-specific instructions.
+When editing the (newly-generated or existing) skill, remember that the skill is being created for another Agent instance to use. Include information that would be beneficial and non-obvious to another Agent. Consider what procedural knowledge, domain-specific details, or reusable assets would help another Agent execute these tasks more effectively.
+
+#### Learn Proven Design Patterns
+
+Consult these helpful guides based on your skill's needs:
+
+- **Multi-step processes**: See references/workflows.md for sequential workflows and conditional logic
+- **Specific output formats or quality standards**: See references/output-patterns.md for template and example patterns
+
+These files contain established best practices for effective skill design.
+
+#### Start with Reusable Skill Contents
+
+To begin implementation, start with the reusable resources identified above: `scripts/`, `references/`, and `assets/` files. Note that this step may require user input. For example, when implementing a `brand-guidelines` skill, the user may need to provide brand assets or templates to store in `assets/`, or documentation to store in `references/`.
+
+Added scripts must be tested by actually running them to ensure there are no bugs and that the output matches what is expected. If there are many similar scripts, only a representative sample needs to be tested to ensure confidence that they all work while balancing time to completion.
+
+Any example files and directories not needed for the skill should be deleted. The initialization script creates example files in `scripts/`, `references/`, and `assets/` to demonstrate structure, but most skills won't need all of them.
 
 #### Add Scripts
 
@@ -234,42 +322,34 @@ Add templates, boilerplate, or output files in `assets/`.
 
 Write the YAML frontmatter and Markdown body for the skill. See SKILL.md Writing Guidelines below.
 
-### Step 3: Validate the Skill
-
-```bash
-uv run scripts/validate.py <skill-directory>
-```
-
-Validation checks:
-- YAML frontmatter format and required fields
-- Skill naming conventions and directory structure
-- Description completeness and quality
-- File organization and resource references
-
 ### Step 4: Package the Skill
+
+Once development of the skill is complete, it must be packaged into a distributable .skill file. The packaging process automatically validates the skill first to ensure it meets all requirements:
 
 ```bash
 uv run scripts/pack.py <skill-name> --output <output-directory>
 ```
 
-Packaging automatically validates the skill first, then creates a `.skill` file (zip archive) for distribution.
+The packaging script will:
 
-### Step 5: Unpack a Skill
+1. **Validate** the skill automatically, checking:
+   - YAML frontmatter format and required fields
+   - Skill naming conventions and directory structure
+   - Description completeness and quality
+   - File organization and resource references
 
-```bash
-uv run scripts/unpack.py <skill-name>.skill
-```
+2. **Package** the skill if validation passes, creating a `.skill` file (a zip archive) for distribution.
 
-Extracts a packaged skill into the current directory.
+If validation fails, the script will report the errors and exit without creating a package. Fix any validation errors and run the packaging command again.
 
-### Step 6: Iterate
+### Step 5: Iterate
 
 After testing the skill, iterate based on real usage:
 
 1. Use the skill on actual tasks
 2. Notice struggles or inefficiencies
 3. Identify how SKILL.md or bundled resources should be updated
-4. Implement changes, validate, and repackage
+4. Implement changes and test again
 
 ## SKILL.md Writing Guidelines
 
@@ -282,6 +362,7 @@ Write the YAML frontmatter with `name` and `description`:
   - Include both what the Skill does and specific triggers/contexts for when to use it.
   - Include all "when to use" information here—not in the body. The body is only loaded after triggering, so "When to Use This Skill" sections in the body are not helpful to the Agent.
   - Example: "Tool for creating and managing Agent Skills. Use when users want to create a new skill or manage existing skills. Supports initialization, validation, packaging, unpacking, and iterative development workflows."
+  - Example description for a `docx` skill: "Comprehensive document creation, editing, and analysis with support for tracked changes, comments, formatting preservation, and text extraction. Use when the Agent needs to work with professional documents (.docx files) for: (1) Creating new documents, (2) Modifying or editing content, (3) Working with tracked changes, (4) Adding comments, or any other document tasks"
 
 Do not include any other fields in YAML frontmatter.
 
