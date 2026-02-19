@@ -268,14 +268,21 @@ Usage:
 uv run scripts/init.py <skill-name>
 ```
 
+Optional flags to create resource directories:
+
+```bash
+uv run scripts/init.py <skill-name> --script --ref --asset
+```
+
 The initialization script creates:
 
 - Skill directory structure
 - SKILL.md template with YAML frontmatter
-- Resource directories: `scripts/`, `references/`, `assets/`
-- Example files (can be customized or deleted)
 
-After initialization, customize or remove the generated SKILL.md and example files as needed.
+Use flags to create resource directories as needed:
+- `--script` creates `scripts/`
+- `--ref` creates `references/`
+- `--asset` creates `assets/`
 
 ### Step 2: Edit the Skill
 

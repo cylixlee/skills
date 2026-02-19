@@ -3,10 +3,11 @@
 Skill Initializer - Creates a new skill from template
 
 Usage:
-    uv run scripts/init.py <skill-name>
+    uv run scripts/init.py <skill-name> [--ref] [--script] [--asset]
 
-Example:
+Examples:
     uv run scripts/init.py my-new-skill
+    uv run scripts/init.py my-new-skill --script --ref
 """
 
 import argparse
@@ -65,7 +66,7 @@ Delete this entire "Structuring This Skill" section when done - it's just guidan
 
 ## Resources
 
-This skill includes example resource directories that demonstrate how to organize different types of bundled resources:
+If your skill needs bundled resources, create the appropriate directories:
 
 ### scripts/
 Executable code (Python/Bash/etc.) that can be run directly to perform specific operations.
@@ -100,7 +101,7 @@ Files not intended to be loaded into context, but rather used within the output 
 
 ---
 
-Delete any unneeded resource directories.
+Use flags to create directories: `uv run scripts/init.py <skill-name> --script --ref --asset`
 """
 
 
@@ -117,9 +118,9 @@ def validate_skill_name(name: str) -> bool:
 
 def init_skill(
     skill_name: str,
-    no_ref: bool = False,
-    no_script: bool = False,
-    no_asset: bool = False,
+    with_ref: bool = False,
+    with_script: bool = False,
+    with_asset: bool = False,
 ) -> Path | None:
     """Initialize a new skill directory with template SKILL.md."""
     if not validate_skill_name(skill_name):
@@ -146,17 +147,17 @@ def init_skill(
     )
     print(f"Created: {skill_md}")
 
-    if not no_ref:
+    if with_ref:
         ref_dir = skill_dir / "references"
         ref_dir.mkdir(exist_ok=True)
         print(f"Created: {ref_dir}/")
 
-    if not no_script:
+    if with_script:
         script_dir = skill_dir / "scripts"
         script_dir.mkdir(exist_ok=True)
         print(f"Created: {script_dir}/")
 
-    if not no_asset:
+    if with_asset:
         asset_dir = skill_dir / "assets"
         asset_dir.mkdir(exist_ok=True)
         print(f"Created: {asset_dir}/")
@@ -169,22 +170,20 @@ def main():
     parser = argparse.ArgumentParser(description="Initialize a new skill")
     parser.add_argument("skill_name", help="Name of the skill (hyphen-case)")
     parser.add_argument(
-        "--no-ref", action="store_true", help="Skip creating references/ directory"
+        "--ref", action="store_true", help="Create references/ directory"
     )
     parser.add_argument(
-        "--no-script", action="store_true", help="Skip creating scripts/ directory"
+        "--script", action="store_true", help="Create scripts/ directory"
     )
-    parser.add_argument(
-        "--no-asset", action="store_true", help="Skip creating assets/ directory"
-    )
+    parser.add_argument("--asset", action="store_true", help="Create assets/ directory")
 
     args = parser.parse_args()
 
     result = init_skill(
         args.skill_name,
-        no_ref=args.no_ref,
-        no_script=args.no_script,
-        no_asset=args.no_asset,
+        with_ref=args.ref,
+        with_script=args.script,
+        with_asset=args.asset,
     )
 
     sys.exit(0 if result else 1)
