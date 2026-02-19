@@ -1,12 +1,12 @@
 ---
 name: skill-creator
-description: Tool for creating, validating, packaging, and unpacking Agent Skills. Use when users want to create a new skill or manage existing skills. Supports initialization, validation, packaging, unpacking, and iterative development workflows.
+description: Tool for creating and validating Agent Skills. Use when users want to create a new skill or manage existing skills. Supports initialization, validation, and iterative development workflows.
 license: Complete terms in LICENSE.txt
 ---
 
 # Skill Creator
 
-Tools for creating, validating, packaging, and unpacking Agent Skills.
+Tools for creating and validating Agent Skills.
 
 ## About Skills
 
@@ -258,7 +258,7 @@ To establish the skill's contents, analyze each concrete example to create a lis
 
 At this point, it is time to actually create the skill.
 
-Skip this step only if the skill being developed already exists, and iteration or packaging is needed. In this case, continue to the next step.
+Skip this step only if the skill being developed already exists. In this case, continue to the next step.
 
 When creating a new skill from scratch, always run the `init_skill.py` script. The script conveniently generates a new template skill directory that automatically includes everything a skill requires, making the skill creation process much more efficient and reliable.
 
@@ -329,29 +329,9 @@ Add templates, boilerplate, or output files in `assets/`.
 
 Write the YAML frontmatter and Markdown body for the skill. See SKILL.md Writing Guidelines below.
 
-### Step 4: Package the Skill
+#### Validate the Skill
 
-Once development of the skill is complete, it must be packaged into a distributable .skill file. The packaging process automatically validates the skill first to ensure it meets all requirements:
-
-```bash
-uv run scripts/pack.py <skill-name> --output <output-directory>
-```
-
-The packaging script will:
-
-1. **Validate** the skill automatically, checking:
-   - YAML frontmatter format and required fields
-   - Skill naming conventions and directory structure
-   - Description completeness and quality
-   - File organization and resource references
-
-2. **Package** the skill if validation passes, creating a `.skill` file (a zip archive) for distribution.
-
-If validation fails, the script will report the errors and exit without creating a package. Fix any validation errors and run the packaging command again.
-
-#### Validate Skill Separately
-
-You can also run validation independently:
+You can run validation at any time:
 
 ```bash
 uv run scripts/validate.py <skill-directory>
@@ -363,7 +343,7 @@ To allow TODO placeholders in SKILL.md body (for skills like code-style that nee
 uv run scripts/validate.py <skill-directory> --allow-todos
 ```
 
-### Step 5: Iterate
+### Step 4: Iterate
 
 After testing the skill, iterate based on real usage:
 
@@ -382,7 +362,7 @@ Write the YAML frontmatter with `name` and `description`:
 - `description`: This is the primary triggering mechanism for your skill, and helps the Agent understand when to use the skill.
   - Include both what the Skill does and specific triggers/contexts for when to use it.
   - Include all "when to use" information here—not in the body. The body is only loaded after triggering, so "When to Use This Skill" sections in the body are not helpful to the Agent.
-  - Example: "Tool for creating and managing Agent Skills. Use when users want to create a new skill or manage existing skills. Supports initialization, validation, packaging, unpacking, and iterative development workflows."
+  - Example: "Tool for creating and managing Agent Skills. Use when users want to create a new skill or manage existing skills. Supports initialization, validation, and iterative development workflows."
   - Example description for a `docx` skill: "Comprehensive document creation, editing, and analysis with support for tracked changes, comments, formatting preservation, and text extraction. Use when the Agent needs to work with professional documents (.docx files) for: (1) Creating new documents, (2) Modifying or editing content, (3) Working with tracked changes, (4) Adding comments, or any other document tasks"
 
 Do not include any other fields in YAML frontmatter.
@@ -399,7 +379,7 @@ When creating a skill with Python scripts:
 cp .gitignore <skill-name>/.gitignore
 ```
 
-This excludes `__pycache__/`, `*.pyc`, and `.venv/` from packages.
+This excludes `__pycache__/`, `*.pyc`, and `.venv/` from version control.
 
 ## uv Commands
 
