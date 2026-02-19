@@ -349,6 +349,20 @@ The packaging script will:
 
 If validation fails, the script will report the errors and exit without creating a package. Fix any validation errors and run the packaging command again.
 
+#### Validate Skill Separately
+
+You can also run validation independently:
+
+```bash
+uv run scripts/validate.py <skill-directory>
+```
+
+To allow TODO placeholders in SKILL.md body (for skills like code-style that need TODO syntax):
+
+```bash
+uv run scripts/validate.py <skill-directory> --allow-todos
+```
+
 ### Step 5: Iterate
 
 After testing the skill, iterate based on real usage:
