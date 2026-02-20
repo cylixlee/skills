@@ -99,6 +99,27 @@ Files not intended to be loaded into context, but rather used within the output 
 
 **Appropriate for:** Templates, boilerplate code, document templates, images, icons, fonts, or any files meant to be copied or used in the final output.
 
+## File References
+
+When referencing files in your skill, use markdown link syntax, not backticks:
+
+**Correct:**
+```markdown
+See [the reference guide](references/REFERENCE.md) for details.
+
+Run the extraction script:
+[scripts/extract.py](scripts/extract.py)
+```
+
+**Incorrect:**
+```markdown
+See the reference guide in `references/REFERENCE.md`.
+
+Run `scripts/extract.py`
+```
+
+This ensures proper linking and navigation within the skill.
+
 ---
 
 Use flags to create directories: `uv run scripts/init.py <skill-name> --script --ref --asset`
