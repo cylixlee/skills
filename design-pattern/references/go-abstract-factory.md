@@ -59,6 +59,10 @@ func (t *MacTextField) Render() {
 // Concrete factories
 type WindowsFactory struct{}
 
+func NewWindowsFactory() *WindowsFactory {
+	return &WindowsFactory{}
+}
+
 func (f *WindowsFactory) CreateButton() Button {
 	return &WindowsButton{}
 }
@@ -68,6 +72,10 @@ func (f *WindowsFactory) CreateTextField() TextField {
 }
 
 type MacFactory struct{}
+
+func NewMacFactory() *MacFactory {
+	return &MacFactory{}
+}
 
 func (f *MacFactory) CreateButton() Button {
 	return &MacButton{}
@@ -89,11 +97,11 @@ func renderUI(factory UIFactory) {
 // Usage
 func main() {
 	// On Mac
-	macFactory := &MacFactory{}
+	macFactory := NewMacFactory()
 	renderUI(macFactory)
 	
 	// On Windows
-	windowsFactory := &WindowsFactory{}
+	windowsFactory := NewWindowsFactory()
 	renderUI(windowsFactory)
 }
 ```

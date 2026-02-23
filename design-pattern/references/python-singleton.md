@@ -14,7 +14,7 @@ Ensure a class has only one instance and provide a global point of access to it.
 
 ```python
 class Singleton(object):
-    _instance: 'Singleton' | None = None
+    _instance: 'Singleton' | None
     
     def __new__(cls, *args, **kwargs) -> 'Singleton':
         if cls._instance is None:
@@ -59,7 +59,7 @@ if __name__ == "__main__":
 
 ```python
 def singleton(cls):
-    instances: dict
+    instances: dict[type, object]
     
     def get_instance(*args, **kwargs):
         if cls not in instances:

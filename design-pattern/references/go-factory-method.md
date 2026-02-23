@@ -40,11 +40,19 @@ type NotificationFactory interface {
 // Concrete creators
 type EmailFactory struct{}
 
+func NewEmailFactory() *EmailFactory {
+	return &EmailFactory{}
+}
+
 func (e *EmailFactory) CreateNotification() Notification {
 	return &EmailNotification{}
 }
 
 type SMSFactory struct{}
+
+func NewSMSFactory() *SMSFactory {
+	return &SMSFactory{}
+}
 
 func (s *SMSFactory) CreateNotification() Notification {
 	return &SMSNotification{}
@@ -59,11 +67,11 @@ func sendNotification(factory NotificationFactory, message string) {
 // Usage
 func main() {
 	// Use email factory
-	emailFactory := &EmailFactory{}
+	emailFactory := NewEmailFactory()
 	sendNotification(emailFactory, "Hello via Email")
 	
 	// Use SMS factory
-	smsFactory := &SMSFactory{}
+	smsFactory := NewSMSFactory()
 	sendNotification(smsFactory, "Hello via SMS")
 }
 ```
