@@ -79,9 +79,6 @@ class MacFactory(UIFactory):
 
 # Client code - depends on abstraction
 class UIRenderer(object):
-    def __init__(self) -> None:
-        pass
-    
     def render_ui(self, factory: UIFactory) -> None:
         button = factory.create_button()
         text_field = factory.create_text_field()

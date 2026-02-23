@@ -41,6 +41,10 @@ type DataSourceDecorator struct {
 	source DataSource
 }
 
+func NewDataSourceDecorator(source DataSource) *DataSourceDecorator {
+	return &DataSourceDecorator{source: source}
+}
+
 func (d *DataSourceDecorator) WriteData(data string) {
 	d.source.WriteData(data)
 }

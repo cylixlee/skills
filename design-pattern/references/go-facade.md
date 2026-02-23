@@ -17,6 +17,10 @@ import "fmt"
 
 type CPU struct{}
 
+func NewCPU() *CPU {
+	return &CPU{}
+}
+
 func (c *CPU) Freeze() {
 	fmt.Println("CPU freeze")
 }
@@ -31,11 +35,19 @@ func (c *CPU) Execute() {
 
 type Memory struct{}
 
+func NewMemory() *Memory {
+	return &Memory{}
+}
+
 func (m *Memory) Load(position int64, data []byte) {
 	fmt.Println("Memory load at", position)
 }
 
 type HardDrive struct{}
+
+func NewHardDrive() *HardDrive {
+	return &HardDrive{}
+}
 
 func (h *HardDrive) Read(lba int64, size int) []byte {
 	fmt.Println("HardDrive read", size, "bytes")
@@ -51,9 +63,9 @@ type ComputerFacade struct {
 
 func NewComputerFacade() *ComputerFacade {
 	return &ComputerFacade{
-		cpu:       &CPU{},
-		memory:    &Memory{},
-		hardDrive: &HardDrive{},
+		cpu:       NewCPU(),
+		memory:    NewMemory(),
+		hardDrive: NewHardDrive(),
 	}
 }
 

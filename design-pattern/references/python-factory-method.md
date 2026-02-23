@@ -52,9 +52,6 @@ class SMSFactory(NotificationFactory):
 
 # Client code - depends on abstraction
 class NotificationService(object):
-    def __init__(self) -> None:
-        pass
-    
     def send_notification(self, factory: NotificationFactory, message: str) -> None:
         notification = factory.create_notification()
         notification.send(message)

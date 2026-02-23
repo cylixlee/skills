@@ -24,6 +24,10 @@ type Renderer interface {
 // Concrete implementors
 type VectorRenderer struct{}
 
+func NewVectorRenderer() *VectorRenderer {
+	return &VectorRenderer{}
+}
+
 func (r *VectorRenderer) RenderCircle(radius float64) {
 	fmt.Println("Drawing circle with radius", radius)
 }
@@ -33,6 +37,10 @@ func (r *VectorRenderer) RenderSquare(side float64) {
 }
 
 type RasterRenderer struct{}
+
+func NewRasterRenderer() *RasterRenderer {
+	return &RasterRenderer{}
+}
 
 func (r *RasterRenderer) RenderCircle(radius float64) {
 	fmt.Println("Drawing pixels: circle with radius", radius)
@@ -68,11 +76,11 @@ func (c *Circle) Resize(factor float64) {
 // Client code
 func main() {
 	// Vector rendering
-	circle := NewCircle(&VectorRenderer{}, 5)
+	circle := NewCircle(NewVectorRenderer(), 5)
 	circle.Draw()
 	
 	// Raster rendering
-	circle2 := NewCircle(&RasterRenderer{}, 5)
+	circle2 := NewCircle(NewRasterRenderer(), 5)
 	circle2.Draw()
 }
 ```
