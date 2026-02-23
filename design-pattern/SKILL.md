@@ -89,40 +89,40 @@ Design patterns are reusable solutions to commonly occurring problems. Choose ap
 
 #### Creation Patterns
 
-| Pattern | Purpose |
-|---------|---------|
-| Factory Method | Delegate instantiation to subclasses |
-| Abstract Factory | Create families of related objects |
-| Builder | Construct complex objects step by step |
-| Singleton | Ensure single instance with global access |
-| Prototype | Create objects by cloning existing ones |
+| Pattern          | Purpose                                   | Go                                      | Java                                        | Python                                          |
+| ---------------- | ----------------------------------------- | --------------------------------------- | ------------------------------------------- | ----------------------------------------------- |
+| Factory Method   | Delegate instantiation to subclasses      | [Go](references/go-factory-method.md)   | [Java](references/java-factory-method.md)   | [Python](references/python-factory-method.md)   |
+| Abstract Factory | Create families of related objects        | [Go](references/go-abstract-factory.md) | [Java](references/java-abstract-factory.md) | [Python](references/python-abstract-factory.md) |
+| Builder          | Construct complex objects step by step    | [Go](references/go-builder.md)          | [Java](references/java-builder.md)          | [Python](references/python-builder.md)          |
+| Singleton        | Ensure single instance with global access | [Go](references/go-singleton.md)        | [Java](references/java-singleton.md)        | [Python](references/python-singleton.md)        |
+| Prototype        | Create objects by cloning existing ones   | [Go](references/go-prototype.md)        | [Java](references/java-prototype.md)        | [Python](references/python-prototype.md)        |
 
 #### Structural Patterns
 
-| Pattern | Purpose |
-|---------|---------|
-| Adapter | Convert interface compatibility |
-| Bridge | Separate abstraction from implementation |
-| Composite | Tree structures for part-whole hierarchies |
-| Decorator | Add responsibilities dynamically |
-| Facade | Simplified interface to complex subsystem |
-| Flyweight | Share common state efficiently |
-| Proxy | Control access to another object |
+| Pattern   | Purpose                                    | Go                               | Java                                 | Python                                   |
+| --------- | ------------------------------------------ | -------------------------------- | ------------------------------------ | ---------------------------------------- |
+| Adapter   | Convert interface compatibility            | [Go](references/go-adapter.md)   | [Java](references/java-adapter.md)   | [Python](references/python-adapter.md)   |
+| Bridge    | Separate abstraction from implementation   | [Go](references/go-bridge.md)    | [Java](references/java-bridge.md)    | [Python](references/python-bridge.md)    |
+| Composite | Tree structures for part-whole hierarchies | [Go](references/go-composite.md) | [Java](references/java-composite.md) | [Python](references/python-composite.md) |
+| Decorator | Add responsibilities dynamically           | [Go](references/go-decorator.md) | [Java](references/java-decorator.md) | [Python](references/python-decorator.md) |
+| Facade    | Simplified interface to complex subsystem  | [Go](references/go-facade.md)    | [Java](references/java-facade.md)    | [Python](references/python-facade.md)    |
+| Flyweight | Share common state efficiently             | [Go](references/go-flyweight.md) | [Java](references/java-flyweight.md) | [Python](references/python-flyweight.md) |
+| Proxy     | Control access to another object           | [Go](references/go-proxy.md)     | [Java](references/java-proxy.md)     | [Python](references/python-proxy.md)     |
 
 #### Behavioral Patterns
 
-| Pattern | Purpose |
-|---------|---------|
-| Chain of Responsibility | Pass request along a chain of handlers |
-| Command | Encapsulate request as an object |
-| Iterator | Access elements sequentially |
-| Mediator | Centralized communication |
-| Memento | Capture and restore internal state |
-| Observer | Notify dependents of state changes |
-| State | Alter behavior based on internal state |
-| Strategy | Interchangeable algorithms |
-| Template Method | Define algorithm skeleton, let subclasses override steps |
-| Visitor | Operations on elements of an object structure |
+| Pattern                 | Purpose                                                  | Go                                             | Java                                               | Python                                                 |
+| ----------------------- | -------------------------------------------------------- | ---------------------------------------------- | -------------------------------------------------- | ------------------------------------------------------ |
+| Chain of Responsibility | Pass request along a chain of handlers                   | [Go](references/go-chain-of-responsibility.md) | [Java](references/java-chain-of-responsibility.md) | [Python](references/python-chain-of-responsibility.md) |
+| Command                 | Encapsulate request as an object                         | [Go](references/go-command.md)                 | [Java](references/java-command.md)                 | [Python](references/python-command.md)                 |
+| Iterator                | Access elements sequentially                             | [Go](references/go-iterator.md)                | [Java](references/java-iterator.md)                | [Python](references/python-iterator.md)                |
+| Mediator                | Centralized communication                                | [Go](references/go-mediator.md)                | [Java](references/java-mediator.md)                | [Python](references/python-mediator.md)                |
+| Memento                 | Capture and restore internal state                       | [Go](references/go-memento.md)                 | [Java](references/java-memento.md)                 | [Python](references/python-memento.md)                 |
+| Observer                | Notify dependents of state changes                       | [Go](references/go-observer.md)                | [Java](references/java-observer.md)                | [Python](references/python-observer.md)                |
+| State                   | Alter behavior based on internal state                   | [Go](references/go-state.md)                   | [Java](references/java-state.md)                   | [Python](references/python-state.md)                   |
+| Strategy                | Interchangeable algorithms                               | [Go](references/go-strategy.md)                | [Java](references/java-strategy.md)                | [Python](references/python-strategy.md)                |
+| Template Method         | Define algorithm skeleton, let subclasses override steps | [Go](references/go-template-method.md)         | [Java](references/java-template-method.md)         | [Python](references/python-template-method.md)         |
+| Visitor                 | Operations on elements of an object structure            | [Go](references/go-visitor.md)                 | [Java](references/java-visitor.md)                 | [Python](references/python-visitor.md)                 |
 
 ### 5. Dependency Management
 
@@ -165,10 +165,3 @@ Design code to be easily testable. Testable code is usually well-designed code.
 - **Premature Optimization**: Optimize only when measurement proves it necessary
 - **Excessive Inheritance**: Deep hierarchies create tight coupling; prefer composition
 
-## References
-
-For language-specific implementations with detailed code examples, see:
-- [Java](references/java.md)
-- [Go](references/go.md)
-- [Python](references/python.md)
-- [Domain-Driven Design](references/ddd.md)
