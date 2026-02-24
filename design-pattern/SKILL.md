@@ -9,7 +9,44 @@ This skill guides the generation of high-quality, maintainable, and extensible c
 
 ## Core Principles
 
-### 1. Layered Architecture
+### 1. Simplicity First
+
+Always prefer simple solutions over complex ones. Do not over-engineer or add abstraction layers that are not yet needed.
+
+#### YAGNI (You Aren't Gonna Need It)
+
+Do not design abstractions "just in case" they might be needed later. Implement what is needed now, and refactor when actual extension requirements arise. Premature abstraction often leads to incorrect interfaces that must be changed anyway.
+
+#### KISS (Keep It Simple, Stupid)
+
+Simple code is easier to understand, test, and maintain. If a simple solution works, use it. Complexity should be added only when there is a clear, immediate need.
+
+### 2. Interface Design
+
+#### Prefer Standard Library Interfaces
+
+When the standard library or language provides an interface that meets your needs, use it. Do not create custom interfaces that duplicate standard ones. For example, in Go use `io.Reader` and `io.Writer` instead of defining your own `Reader` or `Writer` interfaces.
+
+#### Define Interfaces at the Point of Need
+
+Define interfaces where they are consumed, not at a central location. This reduces unnecessary coupling and allows interfaces to be specific to actual use cases.
+
+### 3. Package and Module Organization
+
+#### Name Packages by Purpose, Not Project Name
+
+Name packages based on what they do, not the project name. For example, a parser package should be called "parser" or "parsing", not "brainvm".
+
+#### Follow Language Conventions
+
+Use the project structure and conventions appropriate for the language:
+
+- **Go**: Single program → root `main.go`, multiple programs → `cmd/` folder, library → functional packages
+- **Java**: Standard Maven/Gradle structure with `src/main/java`
+- **Python**: `src/` or flat structure with `__init__.py`
+- Do not assume all languages have the same conventions (not all languages have `cmd/`)
+
+### 4. Layered Architecture
 
 Layered Architecture is essential for maintainable software because it separates concerns, making code easier to understand, test, and modify. When all code is mixed together in a single layer, changes in one area can unexpectedly break unrelated functionality. By separating responsibilities into distinct layers, each layer can be developed, tested, and modified independently.
 
@@ -38,6 +75,10 @@ Regardless of the specific layering approach chosen, always ensure:
 - Dependencies flow inward only
 - Layer boundaries are enforced through interfaces or abstractions
 - Code is distributed across multiple files and packages, not lumped together
+
+#### Avoid Unnecessary Middle Layers
+
+Do not create abstraction layers that merely wrap other layers without adding value. Only create a new layer when there is a clear separation of concerns that genuinely needs it. If two components naturally belong together, keep them together.
 
 ### 2. OOP Over Imperative
 
@@ -171,4 +212,8 @@ Design code to be easily testable. Testable code is usually well-designed code.
 - **Magic Values**: Hardcoded numbers or strings without constants; use named constants
 - **Premature Optimization**: Optimize only when measurement proves it necessary
 - **Excessive Inheritance**: Deep hierarchies create tight coupling; prefer composition
+- **Over-Engineering**: Creating unnecessary abstraction layers, interfaces, or packages that don't yet have clear use cases
+- **Interface Duplication**: Defining custom interfaces that duplicate standard library interfaces (e.g., defining your own Reader when io.Reader exists)
+- **Premature Abstraction**: Creating generic interfaces or base types before actual variation points are understood
+- **Unused Code**: "var _ Interface = (*Implementation)(nil)" style compile-time checks that serve no practical purpose
 
