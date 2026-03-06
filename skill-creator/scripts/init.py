@@ -3,11 +3,11 @@
 Skill Initializer - Creates a new skill from template
 
 Usage:
-    uv run scripts/init.py <skill-name> [--ref] [--script] [--asset]
+    uv run --frozen scripts/init.py <skill-name> [--ref] [--script] [--asset]
 
 Examples:
-    uv run scripts/init.py my-new-skill
-    uv run scripts/init.py my-new-skill --script --ref
+    uv run --frozen scripts/init.py my-new-skill
+    uv run --frozen scripts/init.py my-new-skill --script --ref
 """
 
 import argparse
@@ -122,7 +122,7 @@ This ensures proper linking and navigation within the skill.
 
 ---
 
-Use flags to create directories: `uv run scripts/init.py <skill-name> --script --ref --asset`
+Use flags to create directories: `uv run --frozen scripts/init.py <skill-name> --script --ref --asset`
 """
 
 

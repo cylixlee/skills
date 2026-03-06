@@ -3,7 +3,7 @@
 Skill Validator - Checks skill structure and frontmatter
 
 Usage:
-    uv run scripts/validate.py <skill-directory> [--allow-todos]
+    uv run --frozen scripts/validate.py <skill-directory> [--allow-todos]
 """
 
 import argparse

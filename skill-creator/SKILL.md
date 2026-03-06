@@ -265,13 +265,13 @@ When creating a new skill from scratch, always run the `init_skill.py` script. T
 Usage:
 
 ```bash
-uv run scripts/init.py <skill-name>
+uv run --frozen scripts/init.py <skill-name>
 ```
 
 Optional flags to create resource directories:
 
 ```bash
-uv run scripts/init.py <skill-name> --script --ref --asset
+uv run --frozen scripts/init.py <skill-name> --script --ref --asset
 ```
 
 The initialization script creates:
@@ -334,13 +334,13 @@ Write the YAML frontmatter and Markdown body for the skill. See SKILL.md Writing
 You can run validation at any time:
 
 ```bash
-uv run scripts/validate.py <skill-directory>
+uv run --frozen scripts/validate.py <skill-directory>
 ```
 
 To allow TODO placeholders in SKILL.md body (for skills like code-style that need TODO syntax):
 
 ```bash
-uv run scripts/validate.py <skill-directory> --allow-todos
+uv run --frozen scripts/validate.py <skill-directory> --allow-todos
 ```
 
 ### Step 4: Iterate
@@ -384,11 +384,10 @@ This excludes `__pycache__/`, `*.pyc`, and `.venv/` from version control.
 ## uv Commands
 
 ```bash
-uv init --bare                          # Initialize project
-uv add <package-name>                   # Add dependency
-uv remove <package-name>                # Remove dependency
+uv init --bare                            # Initialize project
+uv add <package-name>                     # Add dependency
+uv remove <package-name>                  # Remove dependency
 uv run --frozen scripts/<name>.py <args>  # Run script
-uv run scripts/<script-name>.py <args>   # Run skill scripts
 ```
 
 All skill-creator scripts use uv. If uv is not installed, ask the user to install it first.
