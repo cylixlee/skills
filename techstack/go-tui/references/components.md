@@ -166,7 +166,7 @@ templ (a *app) Render() {
 
 Do not call `app.Mount` manually in normal application code. Write component calls in GSX and let the generated code manage cache keys, binding, cleanup, and props updates.
 
-Inside loops, stable keys matter when component identity matters. Prefer a real item ID where supported by the local project pattern instead of relying only on changing indexes.
+Inside loops, stable keys matter when component identity matters. Prefer a real item ID over a changing index when the list can reorder.
 
 ## Props and Generated UpdateProps
 
@@ -177,7 +177,7 @@ Practical rule:
 - Pass shared reactive values as `*tui.State[T]` when parent and child must both observe changes.
 - Pass simple props such as titles, IDs, widths, and options normally.
 - Keep local state fields as `*tui.State[T]` initialized in the child constructor.
-- Match the installed version and project pattern if manual `PropsUpdater` code exists.
+- Let generated `UpdateProps` refresh non-state props; keep local state in `*tui.State[T]` fields.
 
 ## BindApp and App Access
 
@@ -203,7 +203,7 @@ Skipping `bindAppFields` can leave state or event fields unbound.
 
 ## Lifecycle Hooks
 
-Struct components may implement lifecycle methods used by the framework. Match names and signatures used by the installed version.
+Struct components may implement lifecycle methods used by the framework.
 
 Common patterns:
 

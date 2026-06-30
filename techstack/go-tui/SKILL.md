@@ -27,7 +27,7 @@ Runtime flow: event loop -> component render -> flex layout -> double-buffered d
 
 Components render an element tree from current state. Key handlers, mouse handlers, watchers, events, and queued updates mutate state on the app event loop. State changes mark the app dirty; the next frame re-renders.
 
-Do not assume the user's project contains go-tui source code or local documentation. This skill is portable.
+Treat this skill as the working reference for Go TUI. Apply these patterns directly.
 
 ## Default Workflow
 
@@ -47,7 +47,6 @@ tui check [path...]          # Validate .gsx files without writing output
 tui fmt [path...]            # Format .gsx files
 tui fmt --check [path...]    # Check formatting without modifying
 tui lsp                      # Start language server on stdio
-tui version                  # Print CLI version
 ```
 
 Path forms: `./...` recursively processes all `.gsx` files, a directory processes that directory, and a file processes one source file. Generated files sit beside sources, e.g. `app.gsx` -> `app_gsx.go`.
@@ -157,7 +156,7 @@ badge := <span class="font-bold">{label}</span>
 
 ## Elements and Attributes
 
-Common elements: `<div>`, `<span>`, `<p>`, `<ul>`, `<li>`, `<button>`, `<input />`, `<textarea />`, `<table>`, `<tr>`, `<td>`, `<th>`, `<modal>`, `<hr />`, `<br />`, `<markdown />`. Treat `<progress />` and less common elements conservatively across pre-1.0 versions; verify local support before relying on them.
+Common elements: `<div>`, `<span>`, `<p>`, `<ul>`, `<li>`, `<button>`, `<input />`, `<textarea />`, `<table>`, `<tr>`, `<td>`, `<th>`, `<modal>`, `<progress />`, `<hr />`, `<br />`, `<markdown />`.
 
 Key attributes:
 
@@ -323,7 +322,7 @@ Inputs:
 <textarea value={s.body} placeholder="Message" maxHeight={6} border={true} onSubmit={s.submit} />
 ```
 
-`Input` and `TextArea` runtime methods use grapheme-cluster positions: `CursorPos`, `SetCursorPos`, `InsertText`, `Text`, and `SetText`. `<textarea />` change callbacks may require Go options such as `WithTextAreaOnChange` depending on version.
+`Input` and `TextArea` runtime methods use grapheme-cluster positions: `CursorPos`, `SetCursorPos`, `InsertText`, `Text`, and `SetText`. Use `tui.WithInputOnChange(func(string))` and `tui.WithTextAreaOnChange(func(string))` for programmatic text-change callbacks.
 
 ## App Options and Methods
 
@@ -389,7 +388,7 @@ go func() {
 
 `StreamAbove` is goroutine-safe and returns a no-op writer outside inline mode. Close it when done. It does not update component state; use `QueueUpdate` for state changes. Only one stream writer is active at a time. `PrintAbove`/`PrintAboveln` finalize active streams before printing.
 
-`PrintAboveElement(view)` and `StreamWriter.WriteElement(view)` render a view into static inline history. They do not mount interactive components. Use queued variants from goroutines where available.
+`PrintAboveElement(view)` and `StreamWriter.WriteElement(view)` render a view into static inline history. They do not mount interactive components. From goroutines, use `QueuePrintAbove`, `QueuePrintAboveElement`, or `QueueUpdate` as appropriate.
 
 Modals require full-screen mode and are ignored in inline mode. To show a modal from inline mode, enter alternate screen first and exit it after closing.
 
@@ -448,4 +447,4 @@ Load references only when the task needs more detail than this main guide:
 - [references/streaming.md](references/streaming.md): inline mode, `PrintAbove`, `StreamAbove`, LLM token output.
 - [references/testing.md](references/testing.md): mock terminal, event tests, verification, debugging.
 
-go-tui is pre-1.0. If an API here fails in a user project, inspect the installed version and local usage before rewriting broadly. Prefer the smallest change that matches the project version.
+When Go TUI changes, update this skill. Downstream agents should follow this skill directly.

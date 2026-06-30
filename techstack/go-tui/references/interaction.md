@@ -28,7 +28,7 @@ Common matchers:
 - `tui.AnyRune` for text entry.
 - `tui.AnyKey` for catch-all blockers.
 - `tui.KeyEscape`, `tui.KeyEnter`, `tui.KeyBackspace`, `tui.KeyTab`, `tui.KeyCtrlC` for special keys.
-- Modifier helpers such as `.Ctrl()` and `.Shift()` where supported by the installed version.
+- Modifier helpers such as `.Ctrl()` and `.Shift()` for key combinations.
 
 ## Conditional KeyMaps
 
@@ -59,7 +59,7 @@ Rules of thumb:
 - Put global quit keys on the root component, but guard them when a text mode is active.
 - Use `OnStop` when a component owns a key.
 - Use `OnPreemptStop` for overlays that must block parent handlers.
-- Avoid multiple active `OnStop` handlers for the same key unless the project version explicitly allows it.
+- Do not register multiple active `OnStop` handlers for the same key.
 
 ## Mouse and Refs
 
@@ -155,7 +155,7 @@ Use built-in inputs for text editing instead of manually collecting runes when p
 />
 ```
 
-`<input />` supports change callbacks in GSX. `<textarea />` change callbacks may require Go options in some versions, so check local usage before assuming an `onChange` attribute exists.
+`<input />` supports change callbacks in GSX. For programmatic text widget callbacks, use `tui.WithInputOnChange(func(string))` and `tui.WithTextAreaOnChange(func(string))`.
 
 ## Interaction Checklist
 

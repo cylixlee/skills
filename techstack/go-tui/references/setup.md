@@ -63,12 +63,6 @@ tui lsp
 tui lsp --log /tmp/tui-lsp.log
 ```
 
-Print the installed CLI version:
-
-```bash
-tui version
-```
-
 ## Generated File Rules
 
 - Do not hand-edit `*_gsx.go` files.
@@ -169,14 +163,14 @@ When work already runs on this main loop, state can be mutated directly. From se
 
 ## Editor Setup
 
-For VS Code-compatible editors, use the official go-tui extension if available. It provides syntax highlighting, LSP diagnostics, completions, hover docs, formatting, and generated file nesting.
+For VS Code-compatible editors, use the official go-tui extension. It provides syntax highlighting, LSP diagnostics, completions, hover docs, formatting, and generated file nesting.
 
 For Neovim or custom editors, connect the editor's LSP client to `tui lsp` over stdio.
 
 ## Setup Checklist
 
 - `go.mod` includes `github.com/grindlemire/go-tui`.
-- `tui` CLI is installed and on `PATH`.
+- `tui` CLI is on `PATH`.
 - `.gsx` files have normal Go package declarations and imports.
 - Generated `*_gsx.go` files are current.
 - `main.go` creates `NewApp`, defers `Close`, and calls `Run`.

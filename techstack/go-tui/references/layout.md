@@ -26,10 +26,10 @@ Common self-closing elements:
 | `<textarea />` | Multi-line text input.                                       |
 | `<hr />`       | Horizontal rule.                                             |
 | `<br />`       | Line break.                                                  |
-| `<progress />` | Progress bar where supported by the installed version.       |
-| `<markdown />` | Markdown rendering where supported by the installed version. |
+| `<progress />` | Progress bar. |
+| `<markdown />` | Markdown rendering. |
 
-If a built-in differs across versions, inspect local generated code or existing project examples before using the element in new code.
+Use these built-ins directly in `.gsx` templates.
 
 ## Flex Layout Mental Model
 
@@ -161,7 +161,7 @@ Sidebars usually need fixed width and `shrink-0`:
 </div>
 ```
 
-Main panels usually need `grow` plus explicit constraints when long text or tables can otherwise force layout expansion. Use width, max width, truncation, wrapping, or scroll behavior according to the installed version and local patterns.
+Main panels usually need `grow` plus explicit constraints when long text or tables can otherwise force layout expansion. Use width, max width, truncation, wrapping, or scroll behavior deliberately.
 
 ## Scrolling
 
@@ -229,7 +229,7 @@ Outside modals, mouse clicks are usually handled with refs and `HandleClicks`. I
 
 ## Tables
 
-Use table elements for aligned row and column data when the installed version supports them.
+Use table elements for aligned row and column data.
 
 ```gsx
 <table class="w-full">
@@ -274,4 +274,4 @@ Use modal key maps or preemptive handlers when the modal must block parent short
 - Failing to use `shrink-0` for headers, footers, sidebars, and input bars.
 - Using dynamic text without width constraints in tables or side-by-side panels.
 - Assuming modals work in inline mode.
-- Assuming every documented element exists in every pre-1.0 version.
+- Treating the skill as a prompt to rediscover Go TUI instead of applying its patterns directly.

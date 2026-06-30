@@ -22,7 +22,7 @@ app.PrintAbove("Saved %s", path)
 app.PrintAboveln("Ready")
 ```
 
-From goroutines, use queued variants where available in the installed version:
+From goroutines, use queued variants:
 
 ```go
 app.QueuePrintAbove("Downloaded %s", name)

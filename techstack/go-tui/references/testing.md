@@ -18,7 +18,7 @@ func TestOutput(t *testing.T) {
 }
 ```
 
-For generated GSX views or whole components, first check the project's existing tests for helper functions. If none exist, prefer app-level tests with `NewMockEventReader`, `Dispatch`, `Render`, and `SnapshotFrame` where those APIs are available in the installed version.
+For generated GSX views or whole components, prefer app-level tests with `NewMockEventReader`, `Dispatch`, `Render`, and `SnapshotFrame`. Reuse project helpers when they already exist.
 
 ## Testing Cells and Styles
 
