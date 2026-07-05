@@ -1,5 +1,5 @@
 ---
-name: go-tui
+name: grindlemire-go-tui
 description: Builds, debugs, and reviews terminal UIs using github.com/grindlemire/go-tui, .gsx templates, the tui CLI, reactive State, KeyMap events, flexbox terminal layout, inline mode, and stream output. Use when creating or modifying Go TUI apps with go-tui or when the user mentions .gsx, tui generate, go-tui components, or StreamAbove.
 ---
 
